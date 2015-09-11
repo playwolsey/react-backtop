@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--<script src="https://fb.me/react-0.13.3.js"></script>
+    <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>-->
+    <script src="http://cdn.bootcss.com/react/0.14.0-beta3/react.js"></script>
+    <script src="http://cdn.bootcss.com/react/0.14.0-beta3/JSXTransformer.js"></script>
+</head>
+
+<body>
+<script>
+;(function(win) {
+    var h;
+    var dpr = win.navigator.appVersion.match(/iphone/gi)?win.devicePixelRatio:1;
+    var scale = 1 / dpr;
+    var docEl = document.documentElement;
+    var metaEl = document.createElement('meta');
+
+    function setUnitA(){
+        win.rem = docEl.getBoundingClientRect().width / 16;
+        docEl.style.fontSize = win.rem + 'px';
+    }
+
+    win.dpr = dpr;
+    win.addEventListener('resize', function() {
+        clearTimeout(h);
+        h = setTimeout(setUnitA, 300);
+    }, false);
+    win.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            clearTimeout(h);
+            h = setTimeout(setUnitA, 300);
+        }
+    }, false);
+
+    docEl.setAttribute('data-dpr', dpr);
+    metaEl.setAttribute('name', 'viewport');
+    metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+    if (docEl.firstElementChild) {
+        docEl.firstElementChild.appendChild(metaEl);
+    } else {
+        var wrap = document.createElement('div');
+        wrap.appendChild(metaEl);
+        document.write(wrap.innerHTML);
+    }
+
+    setUnitA();
+})(window);
+</script>
+
+<style>
+    [data-dpr="1"] body {
+      font-size: 12px;
+    }
+
+    [data-dpr="2"] body {
+      font-size: 24px;
+    }
+
+    [data-dpr="3"] body {
+      font-size: 36px;
+    }
+
+    .empty {
+        height: 8rem;
+    }
+</style>
+<div id="app">
+    <div class="empty">1</div>
+    <div class="empty">2</div>
+    <div class="empty">3</div>
+    <div class="empty">4</div>
+    <div class="empty">5</div>
+    <div class="empty">6</div>
+    <div class="empty">7</div>
+    <div class="empty">8</div>
+    <div class="empty">9</div>
+    <div class="empty">10</div>
+    <div class="empty">11</div>
+    <div class="empty">12</div>
+    <div class="empty">13</div>
+    <div class="empty">14</div>
+    <div class="empty">15</div>
+    <div class="empty">16</div>
+    <div class="empty">17</div>
+    <div class="empty">18</div>
+    <div class="empty">19</div>
+    <div class="empty">30</div>
+    <div class="empty">31</div>
+    <div class="empty">32</div>
+    <div class="empty">33</div>
+    <div class="empty">34</div>
+    <div class="empty">35</div>
+    <div class="empty">36</div>
+    <div class="empty">37</div>
+    <div class="empty">38</div>
+    <div class="empty">39</div>
+    <div id="top"></div>
+</div>
+
+<script type="text/jsx">
+var Backtop = React.createClass({
+    backtop: function() {
+        var backtop = React.findDOMNode(this.refs.backtop);
+
+        (function smoothscroll() {
+            var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            if (currentScroll > 0) {
+                window.requestAnimationFrame(smoothscroll);
+                window.scrollTo(0, currentScroll - (currentScroll / 5));
+            }
+        })();
+        
+        backtop.style.display = 'none';
+    },
+
+    handleScroll: function() {
+        var backtop = React.findDOMNode(this.refs.backtop);
+
+        if (window.pageYOffset < window.innerHeight) {
+            backtop.style.display = 'none';
+        } else {
+            backtop.style.display = 'block';
+        }
+    },
+
+    componentDidMount: function() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+
+    componentWillUnmount: function() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+
+    render: function() {
+        var style = {
+            display: 'none',
+            position: 'fixed',
+            width: '2rem',
+            height: '2rem',
+            right: '0.5rem',
+            borderRadius: '0.3rem',
+            bottom: '.9rem',
+            zIndex: '999',
+            background: 'rgba(0, 0, 0, 0.4) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAkBAMAAADx8p7SAAAAKlBMVEUAAAD+/v7//f7//f7+/f3//////v///////v///////v///P3//v7///8rNLtqAAAADXRSTlMA/NocCb9OcbXoz4VlIaFugwAAAIlJREFUKM/tyrENg1AMRVFLKdKmSpcR0mSCDJEBskikjMAQtEi0bEAJBaLyLoDvt54EK/Aq++pY2eVZ224vn95cQu6fPfLChEYvTOjuM0zo68MvmJD5cA0mtCYLJrQlWKJIsEQkGIgUTIgEA5FgIFKyZkMk2N8CkWCV9aBM/ErsTIf0uB1S1+a1AEa7aZ7PHZ7sAAAAAElFTkSuQmCC) no-repeat center',
+            backgroundSize: '40% 40%'
+        };
+
+        return (
+            <a href="javascript:;" className="backtop" style={style} onClick={this.backtop} ref="backtop"></a>
+        )
+    }
+});
+
+React.render(
+    <Backtop />,
+    document.getElementById('top')
+);
+</script>
+</body>
+</html>
